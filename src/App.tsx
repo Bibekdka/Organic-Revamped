@@ -26,6 +26,9 @@ function Navbar() {
   const handleLogin = async () => {
     try {
       const provider = new GoogleAuthProvider();
+      // Ensure we always trigger a fresh login
+      provider.setCustomParameters({ prompt: 'select_account' });
+      
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       
@@ -35,7 +38,7 @@ function Navbar() {
       
       if (!userSnap.exists()) {
         await setDoc(userRef, {
-          displayName: user.displayName,
+          displayName: user.displayName || 'Anonymous Farmer',
           email: user.email,
           role: 'customer',
           createdAt: new Date().toISOString()
@@ -43,8 +46,18 @@ function Navbar() {
       }
       
       setUser(user);
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      if (error.code === 'auth/user-cancelled') {
+        console.warn('Sign-in cancelled by user');
+      } else if (error.code === 'auth/popup-blocked') {
+        alert('Please enable popups for this site to sign in.');
+      } else {
+        console.error('Firebase Auth Error:', error.code, error.message);
+        // Provide more context if it's the IdP denied access error
+        if (error.message.includes('IdP denied access')) {
+          alert('Sign-in denied. Please ensure you granted all necessary permissions or try again.');
+        }
+      }
     }
   };
 

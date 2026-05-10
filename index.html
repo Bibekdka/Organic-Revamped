@@ -5,40 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Organic-O-Eats | Fresh From Our Soil</title>
     <script>
-      // Aggressive fix for "Uncaught TypeError: Cannot set property fetch of #<Window> which has only a getter"
-      // This error often comes from formdata-polyfill (a dependency of node-fetch and others) 
-      // which tries to monkey-patch fetch if it thinks FormData is missing or incomplete.
+      /**
+       * Aggressive fix for "Uncaught TypeError: Cannot set property fetch of #<Window> which has only a getter"
+       * This occurs when polyfills (like formdata-polyfill) try to overwrite window.fetch
+       * in environments where it's a read-only or getter-only property.
+       */
       (function() {
-        if (typeof window !== 'undefined') {
-          // 1. Ensure FormData.prototype.keys exists to prevent the polyfill from executing its patch logic.
-          if (window.FormData && !window.FormData.prototype.keys) {
-            const noop = function* () {};
-            window.FormData.prototype.keys = noop;
-            window.FormData.prototype.values = noop;
-            window.FormData.prototype.entries = noop;
-            if (typeof Symbol !== 'undefined' && Symbol.iterator) {
-              window.FormData.prototype[Symbol.iterator] = function() { return this.entries(); };
-            }
-          }
+        if (typeof window === 'undefined') return;
 
-          // 2. Tackle the read-only fetch property issue head-on.
-          // If fetch is a getter-only property on window, we try to make it writable.
-          try {
-            const descriptor = Object.getOwnPropertyDescriptor(window, 'fetch') || 
-                               Object.getOwnPropertyDescriptor(Object.getPrototypeOf(window), 'fetch');
-            
-            if (descriptor && !descriptor.writable && !descriptor.set && descriptor.configurable) {
-              const originalFetch = window.fetch;
-              Object.defineProperty(window, 'fetch', {
-                value: originalFetch,
-                writable: true,
-                configurable: true,
-                enumerable: true
-              });
-            }
-          } catch (e) {
-            // Ignore failure to redefine fetch
+        // 1. Trick various polyfills (formdata, etc.) into thinking the features they want to provide are already there.
+        if (window.FormData && !window.FormData.prototype.keys) {
+          const noop = function* () {};
+          window.FormData.prototype.keys = noop;
+          window.FormData.prototype.values = noop;
+          window.FormData.prototype.entries = noop;
+          if (typeof Symbol !== 'undefined' && Symbol.iterator) {
+            window.FormData.prototype[Symbol.iterator] = function() { return this.entries(); };
           }
+        }
+
+        // 2. Intercept assignments to 'fetch' on window.
+        // Instead of letting it throw when a library does `window.fetch = function() { ... }`,
+        // we provide a setter that just ignores the new value.
+        const originalFetch = window.fetch;
+        if (typeof originalFetch === 'function') {
+          try {
+            Object.defineProperty(window, 'fetch', {
+              get: function() { return originalFetch; },
+              set: function() { 
+                // Silently ignore attempts to overwrite fetch.
+                // This prevents the "Cannot set property ... which has only a getter" error.
+                console.warn('Polyfill attempt to overwrite window.fetch was blocked to prevent TypeError.');
+              },
+              configurable: true,
+              enumerable: true
+            });
+          } catch (e) {
+            console.error('Failed to redefine window.fetch:', e);
+          }
+        }
+
+        // 3. Do the same for globalThis if it exists and is different
+        if (typeof globalThis !== 'undefined' && globalThis !== window && globalThis.fetch) {
+           const gFetch = globalThis.fetch;
+           try {
+             Object.defineProperty(globalThis, 'fetch', {
+               get: function() { return gFetch; },
+               set: function() { },
+               configurable: true,
+               enumerable: true
+             });
+           } catch (e) {}
         }
       })();
     </script>
