@@ -1,0 +1,6 @@
+{
+  "name": "Organic-O-Eats",
+  "description": "A premium modern agriculture ecommerce platform for farm-fresh organic products.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["ecommerce", "ai-recommendations", "farm-bookings"]
+}

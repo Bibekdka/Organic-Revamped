@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", serif;
+
+  /* Theme Overrides for Warm Organic / Cultural */
+  --color-primary-50: #1e2d24;
+  --color-primary-100: #1a2a1f;
+  --color-primary-200: #16261a;
+  --color-primary-300: #122216;
+  --color-primary-400: #0e1e12;
+  --color-primary-500: #3b4d3c; /* bg-accent from design */
+  --color-primary-600: #2e3d2e;
+  --color-primary-700: #1e3a2b;
+  --color-primary-800: #0d1a13; /* Primary dark background */
+  --color-primary-900: #0a140f;
+  --color-primary-950: #f5f2ed; /* Main light text */
+
+  --color-accent: #a4b494;
+  --color-warm: #1e3a2b;
+  --color-cream: #0d1a13; /* Inverted for dark background */
+}
+
+@layer base {
+  body {
+    @apply font-sans antialiased bg-[#0D1A13] text-[#F5F2ED];
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.cinematic-shadow {
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+}
+
+.badge {
+  @apply font-sans text-[10px] tracking-[0.1em] uppercase px-3 py-1 rounded-full border border-accent/30 text-accent;
+}
+
+.hero-gradient {
+  background: radial-gradient(circle at 70% 30%, #1E3A2B 0%, #0D1A13 70%);
+}
+

@@ -1,0 +1,100 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "An organic product sold on the platform.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "price": { "type": "number" },
+        "category": { "type": "string", "enum": ["Vegetables", "Fruits", "Organic Dairy", "Seeds", "Honey", "Herbs", "Seasonal Products"] },
+        "imageUrl": { "type": "string", "format": "uri" },
+        "stock": { "type": "integer" },
+        "organicStatus": { "type": "boolean" },
+        "seasonal": { "type": "boolean" },
+        "nutritionalInfo": { "type": "string" },
+        "farmingMethod": { "type": "string" },
+        "rating": { "type": "number" },
+        "reviewsCount": { "type": "integer" }
+      },
+      "required": ["name", "price", "category", "imageUrl", "stock"]
+    },
+    "User": {
+      "title": "User",
+      "description": "A user profile.",
+      "type": "object",
+      "properties": {
+        "displayName": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "role": { "type": "string", "enum": ["admin", "customer"] },
+        "addresses": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "wishlist": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": ["email"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "A customer order.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "productId": { "type": "string" },
+              "quantity": { "type": "integer" },
+              "price": { "type": "number" }
+            }
+          }
+        },
+        "total": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "processing", "shipped", "delivered", "cancelled"] },
+        "shippingAddress": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "items", "total", "status", "createdAt"]
+    },
+    "Visit": {
+      "title": "Visit",
+      "description": "A farm visit booking.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "timeSlot": { "type": "string" },
+        "visitors": { "type": "integer" },
+        "status": { "type": "string", "enum": ["pending", "confirmed", "cancelled"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "date", "timeSlot", "visitors", "status"]
+    }
+  },
+  "firestore": {
+    "products": {
+      "schema": "Product",
+      "description": "Collection of all organic products."
+    },
+    "users": {
+        "schema": "User",
+        "description": "Collection of user profiles."
+    },
+    "orders": {
+      "schema": "Order",
+      "description": "Collection of customer orders."
+    },
+    "visits": {
+      "schema": "Visit",
+      "description": "Collection of farm visit bookings."
+    }
+  }
+}

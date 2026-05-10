@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Organic-O-Eats | Fresh From Our Soil</title>
+    <script>
+      // Aggressive fix for "Uncaught TypeError: Cannot set property fetch of #<Window> which has only a getter"
+      // This error often comes from formdata-polyfill (a dependency of node-fetch and others) 
+      // which tries to monkey-patch fetch if it thinks FormData is missing or incomplete.
+      (function() {
+        if (typeof window !== 'undefined') {
+          // 1. Ensure FormData.prototype.keys exists to prevent the polyfill from executing its patch logic.
+          if (window.FormData && !window.FormData.prototype.keys) {
+            const noop = function* () {};
+            window.FormData.prototype.keys = noop;
+            window.FormData.prototype.values = noop;
+            window.FormData.prototype.entries = noop;
+            if (typeof Symbol !== 'undefined' && Symbol.iterator) {
+              window.FormData.prototype[Symbol.iterator] = function() { return this.entries(); };
+            }
+          }
+
+          // 2. Tackle the read-only fetch property issue head-on.
+          // If fetch is a getter-only property on window, we try to make it writable.
+          try {
+            const descriptor = Object.getOwnPropertyDescriptor(window, 'fetch') || 
+                               Object.getOwnPropertyDescriptor(Object.getPrototypeOf(window), 'fetch');
+            
+            if (descriptor && !descriptor.writable && !descriptor.set && descriptor.configurable) {
+              const originalFetch = window.fetch;
+              Object.defineProperty(window, 'fetch', {
+                value: originalFetch,
+                writable: true,
+                configurable: true,
+                enumerable: true
+              });
+            }
+          } catch (e) {
+            // Ignore failure to redefine fetch
+          }
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
