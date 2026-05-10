@@ -19,8 +19,8 @@ import Dashboard from './pages/Dashboard';
 import Admin from './pages/Admin';
 
 /**
- * Navbar Component - Handles navigation and authentication state
- * Using a "glassmorphism" design effect for a premium feel
+ * Navbar Component - The sticky navigation bar at the top of every page.
+ * Logic: Manages authentication, search bar, cart count, and mobile menu toggle.
  */
 function Navbar() {
   const { user, cart, setUser } = useStore();
@@ -153,12 +153,18 @@ function Navbar() {
   );
 }
 
+/**
+ * Footer Component - The bottom section of every page.
+ * Logic: Contains brand info, quick links, category links, and newsletter signup.
+ */
 function Footer() {
   return (
     <footer className="bg-[#0D1A13] text-[#F5F2ED] pt-32 pb-12 px-6 md:px-24 border-t border-white/5 relative overflow-hidden">
+      {/* BACKGROUND DECORATION: Glowing blur effect at the bottom right */}
       <div className="absolute bottom-0 right-0 w-[50vh] h-[50vh] bg-accent/5 rounded-full blur-[120px] translate-x-1/2 translate-y-1/2" />
       
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-20 mb-24 relative z-10">
+        {/* FOOTER COLUMN 1: Brand Logo & Social Links */}
         <div className="col-span-1 md:col-span-1">
           <Link to="/" className="flex items-center gap-4 mb-10 group">
             <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center border border-accent/20">
@@ -224,6 +230,13 @@ function Footer() {
   );
 }
 
+/**
+ * Main App Component - Entry point of the React application.
+ * Logic: 
+ * 1. Sets up the global auth listener (onAuthStateChanged).
+ * 2. Defines the routing structure for all pages (/store, /product, /cart, etc.).
+ * 3. Wraps the entire layout with Navbar and Footer.
+ */
 export default function App() {
   const { setUser } = useStore();
 

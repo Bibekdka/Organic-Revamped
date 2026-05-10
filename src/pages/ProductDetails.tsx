@@ -85,12 +85,14 @@ export default function ProductDetails() {
            Back to Harvest
         </button>
 
+        {/* PRODUCT TOP SECTION: Main image and primary details */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-start mb-48">
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             className="aspect-[4/5] rounded-[60px] overflow-hidden cinematic-shadow border border-white/10 relative"
           >
+            {/* HERO PRODUCT IMAGE: Fetched from Firestore database (imageUrl field) */}
             <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover opacity-90" />
             <div className="absolute inset-0 bg-gradient-to-t from-primary-800/50 to-transparent" />
           </motion.div>
@@ -100,6 +102,7 @@ export default function ProductDetails() {
             animate={{ opacity: 1, x: 0 }}
             className="py-6"
           >
+            {/* PRODUCT CATEGORY & STATUS BADGES */}
             <div className="flex items-center gap-4 mb-8">
               <span className="badge">{product.category}</span>
               {product.organicStatus && (
@@ -110,6 +113,7 @@ export default function ProductDetails() {
               )}
             </div>
 
+            {/* PRODUCT NAME & PRICING */}
             <h1 className="text-6xl md:text-8xl font-serif text-primary-950 mb-8 italic tracking-tight">{product.name}</h1>
             
             <div className="flex items-center gap-8 mb-12">
@@ -156,7 +160,7 @@ export default function ProductDetails() {
                 </button>
             </div>
 
-            {/* AI Insights */}
+            {/* AI-GENERATED FARM CHEF INSIGHTS: Powered by Gemini AI via geminiService.ts */}
             <div className="glass p-10 rounded-[56px] border border-accent/20 relative overflow-hidden mt-16 group">
                <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                   <Leaf className="w-32 h-32" />
@@ -166,6 +170,7 @@ export default function ProductDetails() {
                   Farm Chef's Insight
                </h4>
                <div className="text-lg text-primary-950 leading-relaxed italic font-serif">
+                  {/* The variable below is populated by the AI service */}
                   &ldquo;{aiInsight || "Consulting our farm experts for the best ways to enjoy this harvest..."}&rdquo;
                </div>
             </div>
@@ -190,6 +195,7 @@ export default function ProductDetails() {
               <div>
                  <h3 className="text-4xl font-serif mb-10 italic text-white tracking-tight">Farming Method</h3>
                  <p className="text-primary-950/50 leading-relaxed mb-10 text-lg font-light">{product.farmingMethod || "Cultivated using regenerative agricultural techniques. We utilize crop rotation, natural composting, and zero-till methods to preserve the microbial life in the soil."}</p>
+                 {/* FARMING STORY IMAGE: Static illustrative image about soil/farming */}
                  <div className="aspect-video rounded-[48px] overflow-hidden border border-white/10 cinematic-shadow bg-black/20">
                     <img src="https://images.unsplash.com/photo-1592982537447-7440770cbfc9?q=80&w=1000" alt="Farmer soil" className="w-full h-full object-cover grayscale opacity-30 group-hover:opacity-100 transition-opacity" />
                  </div>
@@ -197,7 +203,7 @@ export default function ProductDetails() {
            </div>
         </div>
 
-        {/* Related */}
+        {/* RELATED PRODUCTS SECTION: Recommends other items from the same category */}
         {related.length > 0 && (
           <div>
             <div className="flex justify-between items-end mb-16">
@@ -207,6 +213,7 @@ export default function ProductDetails() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
               {related.map(item => (
                 <Link to={`/product/${item.id}`} key={item.id} className="group glass rounded-[48px] p-8 transition-all hover:-translate-y-2">
+                   {/* RELATED ITEM IMAGE: Replace dynamically via database imageUrl */}
                    <div className="aspect-square rounded-[32px] overflow-hidden mb-8 bg-white/5 border border-white/5">
                       <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-1000" />
                    </div>

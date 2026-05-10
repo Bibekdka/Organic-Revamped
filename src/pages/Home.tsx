@@ -5,17 +5,21 @@ import { Link } from 'react-router-dom';
 
 const Hero = () => {
   return (
+    /* MAIN HERO SECTION: Controls the top introduction of the home page */
     <div className="relative h-[95vh] flex items-center overflow-hidden hero-gradient">
       <div className="absolute inset-0 z-0">
+        {/* HERO BACKGROUND IMAGE: Replace the src URL below with your main farm or brand image */}
         <img 
           src="https://images.unsplash.com/photo-1500382017468-9049fee74a62?q=80&w=2000" 
           alt="Lush green farm" 
           className="w-full h-full object-cover opacity-30 scale-105"
         />
+        {/* OVERLAY: Adjust opacity or colors to make text more readable over the background image */}
         <div className="absolute inset-0 bg-gradient-to-t from-primary-800 via-transparent to-transparent" />
       </div>
 
       <div className="relative z-10 px-6 md:px-24 max-w-6xl">
+        {/* BADGE: Small text label above the main heading */}
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -114,7 +118,7 @@ export default function Home() {
     <div className="bg-primary-800 text-primary-950">
       <Hero />
 
-      {/* Sustainable Section */}
+      {/* SUSTAINABLE FEATURES SECTION: Highlights 3 core values (Organic, Sustainability, Local) */}
       <section className="py-32 px-6 md:px-24">
         <SectionHeading 
           sub="Our Mission"
@@ -123,6 +127,7 @@ export default function Home() {
         />
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Each FeatureCard corresponds to one of the 3 columns here */}
           <FeatureCard 
             icon={Leaf}
             title="100% Organic"
@@ -141,13 +146,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Seasonal Promo */}
+      {/* SEASONAL PROMO SECTION: Large image + text block for special offers */}
       <section className="py-24 px-6 md:px-24 bg-primary-700/30">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16">
           <div className="w-full lg:w-1/2 relative">
             <div className="aspect-square rounded-[60px] overflow-hidden border border-white/10 cinematic-shadow">
+               {/* PROMO IMAGE: Replace this URL with an image of your seasonal special (e.g., berries, honey) */}
                <img src="https://images.unsplash.com/photo-1610348725531-843dff563e2c?q=80&w=2000" alt="Fresh berries" className="w-full h-full object-cover" />
             </div>
+            {/* FLOATING DISCOUNT BADGE: Controls the rotating "30% off" circle */}
             <div className="absolute -bottom-8 -right-8 w-48 h-48 bg-accent rounded-full flex items-center justify-center p-6 text-center transform rotate-12 shadow-2xl text-primary-800">
                <span className="font-serif text-2xl leading-none">Seasonal Special <br /><b className="text-3xl">30% Off</b></span>
             </div>
