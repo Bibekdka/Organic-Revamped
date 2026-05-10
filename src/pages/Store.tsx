@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
-import { db } from '../lib/firebase';
+import { db, handleFirestoreError, OperationType } from '../lib/firebase';
 import { useStore } from '../store/useStore';
 import { motion, AnimatePresence } from 'motion/react';
 import { Filter, Search, ChevronRight, Star, ShoppingBag, Heart } from 'lucide-react';
@@ -16,10 +16,15 @@ export default function Store() {
   const { addToCart } = useStore();
 
   useEffect(() => {
+    /**
+     * Fetches products based on the active category.
+     * Implements structured error handling for Firestore calls.
+     */
     const fetchProducts = async () => {
       setLoading(true);
+      const collectionPath = 'products';
       try {
-        let q = collection(db, 'products');
+        const q = collection(db, collectionPath);
         let firestoreQuery;
         
         if (activeCategory !== 'All') {
@@ -32,7 +37,7 @@ export default function Store() {
         const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...(doc.data() as object) }));
         setProducts(data);
       } catch (error) {
-        console.error("Error fetching products:", error);
+        handleFirestoreError(error, OperationType.LIST, collectionPath);
       } finally {
         setLoading(false);
       }

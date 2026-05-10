@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { doc, getDoc, collection, query, where, limit, getDocs } from 'firebase/firestore';
-import { db } from '../lib/firebase';
+import { db, handleFirestoreError, OperationType } from '../lib/firebase';
 import { useStore } from '../store/useStore';
 import { motion } from 'motion/react';
 import { ShoppingBag, Heart, ChevronLeft, Star, Leaf, ShieldCheck, Truck, Sprout } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+/**
+ * Product Details Page
+ * Displays focused product information along with AI-generated culinary insights.
+ */
 export default function ProductDetails() {
   const { id } = useParams();
   const [product, setProduct] = useState<any>(null);
@@ -18,33 +22,53 @@ export default function ProductDetails() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchProduct = async () => {
+    /**
+     * Orchestrates product data fetching and auxiliary insights (AI & Related items).
+     */
+    const fetchProductData = async () => {
       if (!id) return;
       setLoading(true);
+      const productPath = `products/${id}`;
+      
       try {
+        // 1. Fetch main product document
         const docRef = doc(db, 'products', id);
         const docSnap = await getDoc(docRef);
+        
         if (docSnap.exists()) {
           const data = { id: docSnap.id, ...docSnap.data() } as any;
           setProduct(data);
           
-          // Get AI Tip
+          // 2. Fetch AI Insights lazily to not block UX
           import('../services/geminiService').then(({ getProductTips }) => {
             getProductTips(data.name).then(setAiInsight);
-          });
+          }).catch(console.error);
 
-          // Fetch related
-          const q = query(collection(db, 'products'), where('category', '==', data.category), limit(4));
-          const relSnap = await getDocs(q);
-          setRelated(relSnap.docs.map(d => ({ id: d.id, ...d.data() })).filter(d => d.id !== id));
+          // 3. Fetch related products in the same category
+          const collectionPath = 'products';
+          try {
+            const q = query(
+              collection(db, collectionPath), 
+              where('category', '==', data.category), 
+              limit(4)
+            );
+            const relSnap = await getDocs(q);
+            setRelated(relSnap.docs
+              .map(d => ({ id: d.id, ...d.data() }))
+              .filter(d => d.id !== id)
+            );
+          } catch (relError) {
+            handleFirestoreError(relError, OperationType.LIST, collectionPath);
+          }
         }
       } catch (error) {
-        console.error(error);
+        handleFirestoreError(error, OperationType.GET, productPath);
       } finally {
         setLoading(false);
       }
     };
-    fetchProduct();
+    
+    fetchProductData();
   }, [id]);
 
   if (loading) return <div className="min-h-screen bg-primary-800 flex items-center justify-center font-serif text-3xl italic text-primary-950 animate-pulse">Growing details...</div>;

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
-import { auth, db } from './lib/firebase';
+import { auth, db, handleFirestoreError, OperationType } from './lib/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { useStore } from './store/useStore';
 import { ShoppingCart, User, Leaf, Menu, X, Instagram, Facebook, Twitter, Search, Heart, ShoppingBag } from 'lucide-react';
@@ -18,42 +18,56 @@ import Cart from './pages/Cart';
 import Dashboard from './pages/Dashboard';
 import Admin from './pages/Admin';
 
+/**
+ * Navbar Component - Handles navigation and authentication state
+ * Using a "glassmorphism" design effect for a premium feel
+ */
 function Navbar() {
   const { user, cart, setUser } = useStore();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const location = useLocation();
 
+  /**
+   * Triggers Google Auth provider flow.
+   * On success, syncs user data with Firestore to maintain roles and profiles.
+   */
   const handleLogin = async () => {
     try {
       const provider = new GoogleAuthProvider();
-      // Ensure we always trigger a fresh login
+      // Ensure we always trigger a fresh login selection
       provider.setCustomParameters({ prompt: 'select_account' });
       
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       
       // Sync with Firestore
-      const userRef = doc(db, 'users', user.uid);
-      const userSnap = await getDoc(userRef);
-      
-      if (!userSnap.exists()) {
-        await setDoc(userRef, {
-          displayName: user.displayName || 'Anonymous Farmer',
-          email: user.email,
-          role: 'customer',
-          createdAt: new Date().toISOString()
-        });
+      const userPath = `users/${user.uid}`;
+      try {
+        const userRef = doc(db, 'users', user.uid);
+        const userSnap = await getDoc(userRef);
+        
+        if (!userSnap.exists()) {
+          await setDoc(userRef, {
+            displayName: user.displayName || 'Anonymous Farmer',
+            email: user.email,
+            role: 'customer',
+            createdAt: new Date().toISOString()
+          });
+        }
+      } catch (fsError) {
+        // Log Firestore sync errors specifically
+        handleFirestoreError(fsError, OperationType.WRITE, userPath);
       }
       
       setUser(user);
     } catch (error: any) {
+      // Specialized handling for common Auth UI errors
       if (error.code === 'auth/user-cancelled') {
         console.warn('Sign-in cancelled by user');
       } else if (error.code === 'auth/popup-blocked') {
         alert('Please enable popups for this site to sign in.');
       } else {
         console.error('Firebase Auth Error:', error.code, error.message);
-        // Provide more context if it's the IdP denied access error
         if (error.message.includes('IdP denied access')) {
           alert('Sign-in denied. Please ensure you granted all necessary permissions or try again.');
         }
