@@ -8,7 +8,7 @@ export default function About() {
         <h1 className="text-6xl md:text-8xl font-serif mb-16 tracking-tight">Driven by nature, <br /><span className="italic font-light text-accent">inspired</span> by generations.</h1>
         
         <div className="aspect-[21/9] rounded-[60px] overflow-hidden mb-20 cinematic-shadow border border-white/10">
-           <img src="https://images.unsplash.com/photo-1595163456106-932d201be7a6?q=80&w=2000" alt="Farmer in field" className="w-full h-full object-cover opacity-80" />
+           <img src="https://images.unsplash.com/photo-1595163456106-932d201be7a6?q=80&w=2000" alt="Farmer in field" className="w-full h-full object-cover opacity-80 hover:opacity-100 hover:scale-[1.03] transition-all duration-1000 ease-out cursor-pointer" />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-20 items-start mb-48">
@@ -40,7 +40,7 @@ export default function About() {
               ].map(person => (
                 <div key={person.name} className="group">
                   <div className="aspect-[3/4] rounded-[48px] overflow-hidden mb-8 grayscale group-hover:grayscale-0 transition-all duration-1000 border border-white/10 scale-95 group-hover:scale-100">
-                    <img src={person.img} alt={person.name} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                    <img src={person.img} alt={person.name} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 ease-out group-hover:scale-110" />
                   </div>
                   <h4 className="font-serif text-2xl text-white mb-2">{person.name}</h4>
                   <p className="text-[10px] uppercase tracking-[0.3em] text-accent font-bold">{person.role}</p>

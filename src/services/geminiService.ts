@@ -13,7 +13,14 @@ async function getAI() {
     if (!apiKey) {
       throw new Error("GEMINI_API_KEY is not defined. Please check your AI Studio settings.");
     }
-    genAI = new GoogleGenAI(apiKey);
+    genAI = new GoogleGenAI({
+      apiKey: apiKey,
+      httpOptions: {
+        headers: {
+          'User-Agent': 'aistudio-build',
+        }
+      }
+    });
   }
   return genAI;
 }
@@ -32,11 +39,12 @@ export async function getProductTips(productName: string) {
 
   try {
     const ai = await getAI();
-    // Using gemini-1.5-flash for fast and efficient content generation
-    const model = ai.getGenerativeModel({ model: "gemini-1.5-flash" });
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    return response.text();
+    // Use the official, recommended, and non-deprecated gemini-3.5-flash model
+    const response = await ai.models.generateContent({
+      model: "gemini-3.5-flash",
+      contents: prompt,
+    });
+    return response.text || "Fresh from our farm with certified organic integrity and supreme nutrient density.";
   } catch (error) {
     console.error("Gemini Content Generation Error:", error);
     // Fallback content to maintain UX even if API fails
@@ -55,10 +63,12 @@ export async function getHealthConsultant(goal: string) {
 
   try {
     const ai = await getAI();
-    const model = ai.getGenerativeModel({ model: "gemini-1.5-flash" });
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    return response.text();
+    // Use the official, recommended, and non-deprecated gemini-3.5-flash model
+    const response = await ai.models.generateContent({
+      model: "gemini-3.5-flash",
+      contents: prompt,
+    });
+    return response.text || null;
   } catch (error) {
     console.error("Gemini Consultation Error:", error);
     return null;

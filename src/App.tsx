@@ -99,23 +99,23 @@ function Navbar() {
             <input type="text" placeholder="Search harvest..." className="bg-transparent border-none outline-none text-[10px] uppercase font-bold tracking-widest w-24 focus:w-40 transition-all text-primary-950" />
         </div>
 
-        <Link to="/wishlist" className="p-2 hover:bg-white/5 rounded-full transition-colors relative group">
-          <Heart className="w-5 h-5 text-primary-950 group-hover:text-accent transition-colors" />
+        <Link to="/wishlist" className="p-2 hover:bg-white/10 rounded-full transition-all relative group transform hover:scale-110 duration-300">
+          <Heart className="w-5 h-5 text-primary-950 group-hover:text-accent transition-all" />
         </Link>
 
-        <Link to="/cart" className="relative h-10 flex items-center gap-3 px-5 rounded-full glass border-white/10 hover:border-accent/30 transition-all group">
+        <Link to="/cart" className="relative h-10 flex items-center gap-3 px-5 rounded-full glass border-white/10 hover:border-accent/30 transition-all group transform hover:scale-105 active:scale-95 duration-300">
           <ShoppingBag className="w-4 h-4 text-accent transition-transform group-hover:scale-110" />
           <span className="text-[10px] uppercase font-bold tracking-widest text-primary-950/80">Cart ({cartCount})</span>
         </Link>
 
         {user ? (
-          <Link to="/dashboard" className="p-2 hover:bg-white/5 rounded-full transition-colors group">
-            <User className="w-5 h-5 text-primary-950 group-hover:text-accent transition-colors" />
+          <Link to="/dashboard" className="p-2 hover:bg-white/10 rounded-full transition-all group transform hover:scale-110 duration-300">
+            <User className="w-5 h-5 text-primary-950 group-hover:text-accent transition-all" />
           </Link>
         ) : (
           <button 
             onClick={handleLogin}
-            className="hidden sm:block bg-[#F5F2ED] text-[#0D1A13] px-8 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-accent transition-all active:scale-95"
+            className="hidden sm:block bg-[#F5F2ED] text-[#0D1A13] px-8 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-accent hover:text-primary-850 transition-all transform hover:scale-105 active:scale-95 duration-300 shadow-xl"
           >
             Visit Us
           </button>

@@ -58,7 +58,7 @@ export default function Store() {
           </div>
           {/* FILTER BUTTON: Controls sorting and filtering logic (to be expanded) */}
           <div className="flex gap-4">
-             <div className="flex items-center gap-2 glass px-8 py-4 rounded-full cursor-pointer hover:bg-white/5 transition-all">
+             <div className="flex items-center gap-2 glass px-8 py-4 rounded-full cursor-pointer hover:bg-white/10 transition-all hover:scale-105 active:scale-95 duration-300">
                 <Filter className="w-4 h-4 text-accent" />
                 <span className="text-[10px] uppercase font-bold tracking-widest text-primary-950/80">Sort & Filter</span>
              </div>
@@ -69,30 +69,30 @@ export default function Store() {
           {/* SIDEBAR NAVIGATION: Controls category switching */}
           <aside className="w-full lg:w-72 space-y-12">
             <div className="glass p-10 rounded-[48px] relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
-              <h3 className="font-serif text-2xl mb-10 text-primary-950 border-b border-white/5 pb-4">Categories</h3>
-              <div className="flex flex-wrap lg:flex-col gap-3">
-                {CATEGORIES.map(cat => (
-                  <button
-                    key={cat}
-                    onClick={() => setSearchParams({ category: cat })}
-                    className={`text-left px-6 py-3 rounded-2xl text-xs font-bold uppercase tracking-widest transition-all duration-300 ${
-                      activeCategory === cat 
-                        ? 'bg-accent text-primary-800 shadow-lg shadow-accent/20' 
-                        : 'text-primary-950/50 hover:bg-white/5 hover:text-primary-950'
-                    }`}
-                  >
-                    {cat}
-                  </button>
-                ))}
-              </div>
+               <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
+               <h3 className="font-serif text-2xl mb-10 text-primary-950 border-b border-white/5 pb-4">Categories</h3>
+               <div className="flex flex-wrap lg:flex-col gap-3">
+                 {CATEGORIES.map(cat => (
+                   <button
+                     key={cat}
+                     onClick={() => setSearchParams({ category: cat })}
+                     className={`text-left px-6 py-3 rounded-2xl text-xs font-bold uppercase tracking-widest transition-all duration-300 transform hover:scale-[1.04] active:scale-[0.96] ${
+                       activeCategory === cat 
+                         ? 'bg-accent text-primary-800 shadow-lg shadow-accent/20 font-extrabold' 
+                         : 'text-primary-950/50 hover:bg-white/10 hover:text-primary-950'
+                     }`}
+                   >
+                     {cat}
+                   </button>
+                 ))}
+               </div>
             </div>
 
             <div className="glass p-10 rounded-[48px] border border-accent/20 relative overflow-hidden group">
                <div className="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                <h4 className="font-serif text-2xl mb-4 italic text-accent tracking-tight">Seasonal Picks</h4>
                <p className="text-primary-950/60 text-sm mb-8 font-light leading-relaxed">Our farmers have selected the absolute best of this month's harvest.</p>
-               <button className="text-[10px] uppercase font-bold tracking-widest border-b border-accent/40 pb-2 text-accent hover:border-accent transition-all">View Selection</button>
+               <button className="text-[10px] uppercase font-bold tracking-widest border-b border-accent/40 pb-2 text-accent hover:border-accent hover:text-white transition-all transform hover:scale-105 active:scale-95 duration-300">View Selection</button>
             </div>
           </aside>
 
@@ -120,6 +120,7 @@ export default function Store() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.95 }}
                       transition={{ delay: idx * 0.05 }}
+                      className="group glass rounded-[40px] overflow-hidden hover:-translate-y-2 transition-all duration-500 hover:shadow-2xl hover:shadow-primary-950/20"
                     >
                       {/* PRODUCT CARD: Individual product view */}
                       <Link to={`/product/${product.id}`} className="block relative aspect-square overflow-hidden bg-white/5">
@@ -127,7 +128,7 @@ export default function Store() {
                         <img 
                           src={product.imageUrl} 
                           alt={product.name} 
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100"
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100 ease-out"
                         />
                         {/* SEASONAL TAG: Appears if 'seasonal: true' is set in the database */}
                         {product.seasonal && (

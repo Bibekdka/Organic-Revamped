@@ -90,11 +90,11 @@ export default function ProductDetails() {
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
-            className="aspect-[4/5] rounded-[60px] overflow-hidden cinematic-shadow border border-white/10 relative"
+            className="aspect-[4/5] rounded-[60px] overflow-hidden cinematic-shadow border border-white/10 relative group"
           >
             {/* HERO PRODUCT IMAGE: Fetched from Firestore database (imageUrl field) */}
-            <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover opacity-90" />
-            <div className="absolute inset-0 bg-gradient-to-t from-primary-800/50 to-transparent" />
+            <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-[1000ms] ease-out" />
+            <div className="absolute inset-0 bg-gradient-to-t from-primary-800/10 to-transparent pointer-events-none" />
           </motion.div>
 
           <motion.div 
@@ -153,7 +153,7 @@ export default function ProductDetails() {
                 </div>
                 <button 
                   onClick={() => addToCart(product, quantity)}
-                  className="flex-grow bg-accent text-primary-800 py-6 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-3 hover:bg-white transition-all shadow-2xl shadow-accent/20 active:scale-95"
+                  className="flex-grow bg-accent text-primary-800 py-6 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-3 hover:bg-white transition-all transform hover:scale-[1.03] duration-300 shadow-2xl shadow-accent/20 active:scale-95"
                 >
                    <ShoppingBag className="w-4 h-4" />
                    Add to Basket
@@ -197,7 +197,7 @@ export default function ProductDetails() {
                  <p className="text-primary-950/50 leading-relaxed mb-10 text-lg font-light">{product.farmingMethod || "Cultivated using regenerative agricultural techniques. We utilize crop rotation, natural composting, and zero-till methods to preserve the microbial life in the soil."}</p>
                  {/* FARMING STORY IMAGE: Static illustrative image about soil/farming */}
                  <div className="aspect-video rounded-[48px] overflow-hidden border border-white/10 cinematic-shadow bg-black/20">
-                    <img src="https://images.unsplash.com/photo-1592982537447-7440770cbfc9?q=80&w=1000" alt="Farmer soil" className="w-full h-full object-cover grayscale opacity-30 group-hover:opacity-100 transition-opacity" />
+                    <img src="https://images.unsplash.com/photo-1592982537447-7440770cbfc9?q=80&w=1000" alt="Farmer soil" className="w-full h-full object-cover grayscale opacity-30 hover:opacity-100 hover:scale-105 transition-all duration-700 ease-out cursor-pointer" />
                  </div>
               </div>
            </div>

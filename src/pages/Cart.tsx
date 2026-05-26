@@ -20,7 +20,7 @@ export default function Cart() {
         </div>
         <h1 className="text-4xl font-serif mb-4">Your basket is empty.</h1>
         <p className="text-primary-600 mb-12 max-w-sm">Looks like you haven't added any fresh harvest to your basket yet.</p>
-        <button onClick={() => navigate('/store')} className="bg-primary-800 text-cream px-12 py-5 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-primary-700 transition-all">Start Shopping</button>
+        <button onClick={() => navigate('/store')} className="bg-primary-800 text-cream px-12 py-5 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-primary-700 hover:scale-105 active:scale-95 duration-300 transition-all">Start Shopping</button>
       </div>
     );
   }
@@ -43,8 +43,8 @@ export default function Cart() {
                 key={item.id} 
                 className="flex items-center gap-6 p-6 bg-white rounded-[32px] border border-primary-100 cinematic-shadow"
                >
-                 <div className="w-24 h-24 rounded-2xl overflow-hidden bg-primary-50 flex-shrink-0">
-                    <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover" />
+                 <div className="w-24 h-24 rounded-2xl overflow-hidden bg-primary-50 flex-shrink-0 group cursor-pointer">
+                    <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover hover:scale-110 transition-transform duration-500 ease-out" />
                  </div>
                  <div className="flex-grow">
                     <h3 className="text-xl font-serif text-primary-900">{item.name}</h3>
@@ -83,7 +83,7 @@ export default function Cart() {
                    <span className="font-serif text-xl">Total</span>
                    <span className="text-3xl font-bold">${total.toFixed(2)}</span>
                 </div>
-                <button className="w-full bg-accent text-cream py-5 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-opacity-90 transition-all flex items-center justify-center gap-3">
+                <button className="w-full bg-accent text-cream py-5 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-[#F5F2ED] hover:text-[#0D1A13] transition-all transform hover:scale-[1.03] active:scale-[0.97] duration-300 flex items-center justify-center gap-3">
                    Secure Checkout
                    <ArrowRight className="w-4 h-4" />
                 </button>

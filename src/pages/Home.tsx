@@ -54,11 +54,11 @@ const Hero = () => {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="flex flex-col sm:flex-row gap-6"
         >
-          <Link to="/store" className="bg-accent text-primary-800 px-10 py-5 rounded-full text-sm font-bold uppercase tracking-widest flex items-center justify-center gap-2 group transition-all shadow-2xl shadow-accent/20">
+          <Link to="/store" className="bg-accent text-primary-800 px-10 py-5 rounded-full text-sm font-bold uppercase tracking-widest flex items-center justify-center gap-2 group transition-all shadow-2xl shadow-accent/20 transform hover:scale-105 active:scale-95 hover:bg-white hover:text-primary-950 duration-300">
             Shop Today&rsquo;s Harvest
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
           </Link>
-          <Link to="/about" className="bg-transparent border border-white/20 hover:border-white text-primary-950 px-10 py-5 rounded-full text-sm font-light tracking-widest flex items-center justify-center gap-2 transition-all backdrop-blur-sm">
+          <Link to="/about" className="bg-transparent border border-white/20 hover:border-white hover:bg-white/10 text-primary-950 px-10 py-5 rounded-full text-sm font-light tracking-widest flex items-center justify-center gap-2 transition-all backdrop-blur-sm transform hover:scale-105 active:scale-95 duration-300">
             Explore Our Story
           </Link>
         </motion.div>
@@ -149,13 +149,13 @@ export default function Home() {
       {/* SEASONAL PROMO SECTION: Large image + text block for special offers */}
       <section className="py-24 px-6 md:px-24 bg-primary-700/30">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16">
-          <div className="w-full lg:w-1/2 relative">
-            <div className="aspect-square rounded-[60px] overflow-hidden border border-white/10 cinematic-shadow">
+          <div className="w-full lg:w-1/2 relative group">
+            <div className="aspect-square rounded-[60px] overflow-hidden border border-white/10 cinematic-shadow bg-black/5">
                {/* PROMO IMAGE: Replace this URL with an image of your seasonal special (e.g., berries, honey) */}
-               <img src="https://images.unsplash.com/photo-1610348725531-843dff563e2c?q=80&w=2000" alt="Fresh berries" className="w-full h-full object-cover" />
+               <img src="https://images.unsplash.com/photo-1610348725531-843dff563e2c?q=80&w=2000" alt="Fresh berries" className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000 ease-out" />
             </div>
             {/* FLOATING DISCOUNT BADGE: Controls the rotating "30% off" circle */}
-            <div className="absolute -bottom-8 -right-8 w-48 h-48 bg-accent rounded-full flex items-center justify-center p-6 text-center transform rotate-12 shadow-2xl text-primary-800">
+            <div className="absolute -bottom-8 -right-8 w-48 h-48 bg-accent rounded-full flex items-center justify-center p-6 text-center transform rotate-12 group-hover:rotate-6 transition-transform duration-500 shadow-2xl text-primary-800">
                <span className="font-serif text-2xl leading-none">Seasonal Special <br /><b className="text-3xl">30% Off</b></span>
             </div>
           </div>
@@ -165,7 +165,7 @@ export default function Home() {
             <p className="text-primary-950/60 mb-12 text-lg font-light leading-relaxed">
               Experience the explosion of natural sweetness. Hand-picked at the peak of ripeness, our summer berries are packed with antioxidants and vibrant flavor.
             </p>
-            <Link to="/store?category=Fruits" className="inline-block bg-primary-950 text-primary-800 px-12 py-5 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-white transition-all">
+            <Link to="/store?category=Fruits" className="inline-block bg-primary-950 text-accent hover:text-primary-800 px-12 py-5 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-white transition-all transform hover:scale-105 active:scale-95 duration-300 shadow-xl">
               Explore Fruits
             </Link>
           </div>
@@ -245,7 +245,7 @@ export default function Home() {
             <p className="mb-10 text-primary-950/60 font-light max-w-lg mx-auto">Subscribe for our harvest roadmap, exclusive recipes, and early access to seasonal drops.</p>
             <div className="flex flex-col sm:flex-row gap-4 bg-white/5 p-2 rounded-full border border-white/10 max-w-lg mx-auto backdrop-blur-md">
                 <input type="email" placeholder="Enter your email" className="bg-transparent flex-1 px-6 outline-none text-sm text-primary-950 placeholder:text-primary-950/30" />
-                <button className="bg-accent text-primary-800 px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white transition-all whitespace-nowrap">Subscribe</button>
+                <button className="bg-accent text-primary-800 px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-primary-950 transition-all transform hover:scale-105 active:scale-95 duration-300 whitespace-nowrap">Subscribe</button>
             </div>
          </div>
       </section>
